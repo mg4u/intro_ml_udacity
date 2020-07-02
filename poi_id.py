@@ -26,10 +26,6 @@ from sklearn.feature_selection import f_classif
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
 
-finantial_features= ['salary', 'deferral_payments', 'total_payments', 'loan_advances', 'bonus', 'restricted_stock_deferred' 'deferred_income', 'total_stock_value', 'expenses', 'exercised_stock_options', 'long_term_incentive', 'shared_receipt_with_poi', 'restricted_stock', 'director_fees']
-
-number_features=['to_messages', 'from_poi_to_this_person', 'from_messages', 'from_this_person_to_poi']
-
 features_list = ['poi','salary', 'restricted_stock', 'from_poi', 'to_poi'] # You will need to use more features
 
 ### Load the dictionary containing the dataset
@@ -38,7 +34,7 @@ with open("final_project_dataset.pkl", "rb") as data_file:
 
 all_features_list= data_dict[list(data_dict.keys())[0]]
 # all_features_list.pop('poi')
-# all_features_list.pop('email_address')
+
 all_features_list= list(all_features_list.keys())
 # print(all_features_list)
 # exit()
@@ -129,16 +125,12 @@ for person in my_dataset:
 ### Extract features and labels from dataset for local testing
 
 data = featureFormat(my_dataset, features_list, sort_keys = True)
-# print(data)
-# exit()
 
 labels, features = targetFeatureSplit(data)
 
 select_k = SelectKBest(f_classif, k= 'all' )
-# print(features)
+
 features = select_k.fit_transform(features, labels)
-# print(features)
-# exit()
 
 features_train,features_test,labels_train,labels_test = train_test_split(features,labels,test_size=0.30,random_state=42)
 
@@ -193,10 +185,6 @@ print("RandomForestClassifier ", rf_a_score, rf_r_score, rf_p_score)
 clf = RandomForestClassifier(criterion= 'entropy', max_features= 3)
 rf_a_score, rf_r_score, rf_p_score = checkCalssifierScore(clf, features_train,features_test,labels_train,labels_test, "RandomForestClassifier")
 print("RandomForestClassifier ", rf_a_score, rf_r_score, rf_p_score)
-
-# Example starting point. Try investigating other evaluation techniques!
-features_train, features_test, labels_train, labels_test = \
-    train_test_split(features, labels, test_size=0.3, random_state=42)
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
 ### check your results. You do not need to change anything below, but make sure
